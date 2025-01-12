@@ -6,7 +6,7 @@ package:
 
 source:
   - folder: dist
-    url: https://pypi.io/packages/source/f/fortran-language-server/fortran-language-server-{{ version }}.tar.gz
+    url: https://pypi.org/packages/source/f/fortran-language-server/fortran-language-server-{{ version }}.tar.gz
     sha256: ec3921ef23d7e2b50b9337c9171838ed8c6b09ac6e1e4fa4dd33883474bd4f90
   - folder: src
     url: https://github.com/hansec/fortran-language-server/archive/refs/tags/v{{ version }}.tar.gz
@@ -15,7 +15,7 @@ source:
     - 0000-test-installed.patch
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script: cd dist && {{ PYTHON }} -m pip install . -vv
   entry_points:
@@ -24,9 +24,9 @@ build:
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python {{ python_min }}
   run:
-    - python >=3.6
+    - python >={{ python_min }}
 
 test:
   source_files:
@@ -42,6 +42,7 @@ test:
     - pip
     - pytest-cov
     - posix  # [win]
+    - python {{ python_min }}
 
 about:
   home: https://github.com/hansec/fortran-language-server
