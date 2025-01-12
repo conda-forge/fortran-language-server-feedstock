@@ -17,7 +17,9 @@ source:
 build:
   number: 1
   noarch: python
-  script: cd dist && {{ PYTHON }} -m pip install . -vv
+  script:
+    - cd dist
+    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
   entry_points:
     - fortls = fortls.__init__:main
 
@@ -25,24 +27,26 @@ requirements:
   host:
     - pip
     - python {{ python_min }}
+    - setuptools
   run:
     - python >={{ python_min }}
 
 test:
   source_files:
     - src/test
+  requires:
+    - pip
+    - pytest-cov
+    - posix  # [win]
+    - python {{ python_min }}
   imports:
     - fortls
   commands:
     - pip check
     - fortls --version | grep -E "{{ version.replace('.', '\\.') }}"
     - fortls --help
-    - cd src && pytest --no-cov-on-fail --cov=fortls --cov-report=term-missing:skip-covered --cov-fail-under=67
-  requires:
-    - pip
-    - pytest-cov
-    - posix  # [win]
-    - python {{ python_min }}
+    - cd src 
+    - pytest --no-cov-on-fail --cov=fortls --cov-report=term-missing:skip-covered --cov-fail-under=67
 
 about:
   home: https://github.com/hansec/fortran-language-server
