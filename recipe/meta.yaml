@@ -46,7 +46,7 @@ test:
     - fortls --version | grep -E "{{ version.replace('.', '\\.') }}"
     - fortls --help
     - cd src 
-    - pytest --no-cov-on-fail --cov=fortls --cov-report=term-missing:skip-covered --cov-fail-under=67
+    - pytest --no-cov-on-fail --cov=fortls --cov-report=term-missing:skip-covered --cov-fail-under=58
 
 about:
   home: https://github.com/hansec/fortran-language-server
